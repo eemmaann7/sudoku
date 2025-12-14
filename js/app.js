@@ -17,6 +17,7 @@ function setGame() {
   for (let i = 1; i <= 9; i++) {
     let number = document.createElement("div")
     number.classList.add("number")
+    number.id = i
     number.innerText = i
     //when number is selected call this function 
     number.addEventListener("click",selectNumber )
@@ -30,18 +31,28 @@ function setGame() {
             let tile = document.createElement("div")
             // "row - colom"
             tile.id = row.toString() + "-" + colom.toString()
+            // puts the number selected in the tile
+            tile.addEventListener("click", selectTile)
             tile.classList.add("tile")
             document.getElementById("grid-board").append(tile)
         }
     }
 }
 
-//click thr tiles 
+//click the tiles 
 function selectNumber (){
+    // highlight only one number
     if (numSelected != null){
         numSelected.classList.remove("selected-number")
     }
     numSelected = this
     //highlight the selected number 
     numSelected.classList.add("selected-number")
+}
+
+function selectTile (){
+    // make sure the number is selected
+    if (numSelected){
+        this.innerText = numSelected.id
+    }
 }
