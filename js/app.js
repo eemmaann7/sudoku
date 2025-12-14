@@ -1,7 +1,8 @@
-
 let timerInterval
 let seconds = 0
 let mistakes = 0
+let gameStarted = false
+let gameOver = false
 
 var numSelected = null
 var tileSelected = null
@@ -68,9 +69,11 @@ function setGame() {
             document.getElementById("board").append(tile)
         }
     }
+
 }
 
-//click the tiles 
+
+//click on the tiles 
 function selectNumber (){
     // highlight only one number
     if (numSelected != null){
@@ -88,6 +91,19 @@ function selectTile (){
         if (this.innerText != "" ){
             return
         }
-        this.innerText = numSelected.id
+        // 0-0 0-1 ...
+        let cells = this.id.split("-")
+        let row = parseInt(cells[0])
+        let colom = parseInt (cells[1])
+        
+        if (solution[row][colom] == numSelected.id){
+            this.innerText = numSelected.id  
+            tile.id.style.color = "green"
+        }
+        else {
+            mistakes ++ 
+            document.getElementById("mistakes").innerText = mistakes + "/3"
+            tile.style.color = "red"
+        }
     }
 }
