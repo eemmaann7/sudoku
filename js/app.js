@@ -18,6 +18,9 @@ function setGame() {
     let number = document.createElement("div")
     number.classList.add("number")
     number.innerText = i
+    //when number is selected call this function 
+    number.addEventListener("click",selectNumber )
+    number.classList.add("number")
     document.getElementById("digits").appendChild(number);
   }
 
@@ -31,4 +34,14 @@ function setGame() {
             document.getElementById("grid-board").append(tile)
         }
     }
+}
+
+//click thr tiles 
+function selectNumber (){
+    if (numSelected != null){
+        numSelected.classList.remove("selected-number")
+    }
+    numSelected = this
+    //highlight the selected number 
+    numSelected.classList.add("selected-number")
 }
