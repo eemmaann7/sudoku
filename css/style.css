@@ -1,23 +1,53 @@
-body {
-    font-family: "Poppins", Arial, sans-serif;
+body{
+    font-family: "Potta One", cursive;
     text-align: center;
 }
 
-hr {
-    width: 500px;
+h1{
+     color: rgba(30, 30, 144, 0.384);
 }
 
-#grid-board {
-    width: 450px;
+#grid-board{
+    width: 445px;
     height: 450px;
-    display: grid;
+    background-color: rgb(225, 156, 242);
+
+    margin: 0 auto;
+    display:flex;
+    flex-wrap: wrap;
 }
 
+.tile{
+    width: 48px;
+    height: 48px;
+    border: 1px solid lightgray;
 
-#digits {
-    width: 450px;
-    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#digits{
+    width: 445px;
+    height: 48px;
+    background-color: rgba(199, 109, 244, 0.571);
+
     margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
+}
 
+.number {
+    width: 44px; 
+    height: 44px;
+    border: 1px solid black;
+    margin: 2px;
+
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
