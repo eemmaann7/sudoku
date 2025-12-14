@@ -1,5 +1,6 @@
 var numSelected = null
 var tileSelected = null
+var mistakes = 0
 
 var board = [
     "--74916-5",
@@ -89,14 +90,35 @@ function selectTile (){
         let cells = this.id.split("-")
         let row = parseInt(cells[0])
         let colom = parseInt (cells[1])
+
+        this.innerText = numSelected.id
         
         if (solution[row][colom] == numSelected.id){
-            this.innerText = numSelected.id  
             tile.id.style.color = "green"
         }
         else {
-            mistakes ++ 
+            this.style.color = "red"
+            mistakes++
             document.getElementById("mistakes").innerText = mistakes + "/3"
+
+            if (mistakes == 3){
+                alert ("LOOSER , GAME OVER")
+                newGame()
+            }
         }
     }
+}
+
+
+function newGame(){
+    mistakes = 0 
+    document.getElementById("mistakes").innerText = "0/3"
+    document.getElementById("board").innerHTML = ""
+    document.getElementById("digits").innerHTML = ""
+
+
+    numSelected = null 
+    tileSelected = null 
+
+    setGame() 
 }
