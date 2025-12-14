@@ -1,9 +1,3 @@
-let timerInterval
-let seconds = 0
-let mistakes = 0
-let gameStarted = false
-let gameOver = false
-
 var numSelected = null
 var tileSelected = null
 
@@ -103,7 +97,6 @@ function selectTile (){
         else {
             mistakes ++ 
             document.getElementById("mistakes").innerText = mistakes + "/3"
-            tile.style.color = "red"
         }
     }
 }
