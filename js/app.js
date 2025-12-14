@@ -6,7 +6,28 @@ let mistakes = 0
 var numSelected = null
 var tileSelected = null
 
-const board = document.getElementById("grid-board")
+var board = [
+    "--74916-5",
+    "2---6-3-9",
+    "-----7-1-",
+    "-586----4",
+    "--3----9-",
+    "--62--187",
+    "9-4-7---2",
+    "67-83----",
+    "81--45---"
+]
+var solution = [
+    "387491625",
+    "241568379",
+    "569327418",
+    "758619234",
+    "123784596",
+    "496253187",
+    "934176852",
+    "675832941",
+    "812945763"
+]
 
 window.onload = function () {
   setGame()
@@ -31,10 +52,20 @@ function setGame() {
             let tile = document.createElement("div")
             // "row - colom"
             tile.id = row.toString() + "-" + colom.toString()
+            if (board[row][colom] != "-") {
+                tile.innerText = board[row][colom]
+                tile.classList.add("tile-start")
+            }
+            if (row == 2 || row == 5) {
+                tile.classList.add("horizontal-line")
+            }
+            if (colom == 2 || colom == 5) {
+                tile.classList.add("vertical-line")
+            }
             // puts the number selected in the tile
             tile.addEventListener("click", selectTile)
             tile.classList.add("tile")
-            document.getElementById("grid-board").append(tile)
+            document.getElementById("board").append(tile)
         }
     }
 }
@@ -53,6 +84,10 @@ function selectNumber (){
 function selectTile (){
     // make sure the number is selected
     if (numSelected){
+        // puts one number only in a tile no change
+        if (this.innerText != "" ){
+            return
+        }
         this.innerText = numSelected.id
     }
 }

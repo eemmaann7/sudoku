@@ -7,7 +7,7 @@ h1{
      color: rgba(30, 30, 144, 0.384);
 }
 
-#grid-board{
+#board{
     width: 445px;
     height: 450px;
     background-color: rgb(225, 156, 242);
@@ -54,4 +54,15 @@ h1{
 
 .selected-number{
     background-color: rgba(96, 35, 96, 0.224);
+}
+
+.tile-start{
+    background-color: rgba(91, 13, 92, 0.188);
+}
+.horizontal-line {
+    border-bottom: 2px solid black
+}
+
+.vertical-line {
+    border-right: 1px solid black
 }
