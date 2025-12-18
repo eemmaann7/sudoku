@@ -1,6 +1,14 @@
+html{
+    background-color: rgba(168, 97, 109, 0.195);
+}
+
 body{
     font-family: "Potta One", cursive;
     text-align: center;
+}
+
+hr{
+    color: rgba(125, 24, 41, 0.302);
 }
 
 h1{
