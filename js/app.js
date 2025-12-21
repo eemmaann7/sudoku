@@ -80,8 +80,12 @@ var solutions = {
     ]
 }
 
-var board = []
-var solution = []
+// Time per level (seconds)
+var levelTime = {
+    easy: 420,   // 7 minutes
+    medium: 300, // 5 minutes
+    hard: 240    // 4 minutes
+}
 
 
 // ===== ON LOAD =====
@@ -140,7 +144,6 @@ function setGame() {
 // ===== SELECT NUMBER =====
 //click on the tiles 
 function selectNumber (){
-    // highlight only one number
     if (numSelected != null){
         numSelected.classList.remove("selected-number")
     }
@@ -175,7 +178,7 @@ function selectTile() {
         document.getElementById("mistakes").innerText = mistakes + "/3"
 
         if (mistakes == 3) {
-            alert("GAME OVER")
+            alert("LOOSER! GAME OVER")
             newGame()
         }
     }
@@ -216,28 +219,33 @@ function clearHighlight() {
 
 
 // ===== TIMER =====
+function updateTimerDisplay() {
+    let m = Math.floor(seconds / 60)
+    let s = seconds % 60
+    document.getElementById("timer").innerText =
+        (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s
+}
+
 function startTimer() {
     clearInterval(timer)
-    timer = setInterval(function () {
-        seconds++
-        let m = Math.floor(seconds / 60)
-        let s = seconds % 60
-        document.getElementById("timer").innerText =
-            (m < 10 ? "0" : "") + m + ":" +
-            (s < 10 ? "0" : "") + s
+    timer = setInterval(function() {
+        if (!paused) {
+            seconds--
+            updateTimerDisplay()
+            if (seconds <= 0) {
+                clearInterval(timer)
+                alert("Time's up! Game Over")
+                newGame()
+            }
+        }
     }, 1000)
 }
 
 // ===== PAUSE =====
 function pauseGame() {
-    if (!paused) {
-        clearInterval(timer)
-        paused = true
-    } else {
-        paused = false
-        startTimer()
-    }
+    paused = !paused
 }
+
 
 
 // ===== NEW GAME =====
