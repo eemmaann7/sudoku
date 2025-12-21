@@ -2,32 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    device-width, initial-scale=1.0">
-    <title>Sudoku.</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width
+    =device-width, initial-scale=1.0">
+    <title>Sudoku</title>
     <script defer src="js/app.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>Sudoku</h1>
-    <hr>
+    <h2>Sudoku</h2>
     <header>
-    <div class="controls">
-        <button id="pauseBtn">pause</button>
-        <button onclick="NewGame()">New Game</button>
-        <select id="difficulty">
-            <option value="easy">  easy  </option> 
-            <option value="medium">medium</option> 
-            <option value="hard">  hard  </option> 
-        </select>
-    </div>
-    <br>
-    <div class="basic">
+    <div  id="controls">
         <span id="timer">00:00</span>
         <span id="mistakes">0/3</span>
     </div>
+    
+    <div class="btns">
+        <button onclick="newGame()">New Game</button>
+        <select id="level" onchange="newGame()">
+            <option value="easy">Easy</option>
+            <option value="med">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <button onclick="pauseGame()">Pause</button>
+    </div>
     <div id="board"></div>
-    <br>
     <div id="digits"></div>
     </header>
 </body>

@@ -84,21 +84,30 @@ var board = []
 var solution = []
 
 
+// ===== ON LOAD =====
 window.onload = function () {
-  setGame()
+
+    let pauseButton = document.getElementById("pauseBtn")
+    if (pauseButton) {
+        pauseButton.addEventListener("click", pauseGame)
+    }
+
+    newGame()
 }
 
+
+
+// ===== GAME SETUP =====
 function setGame() {
   // Create loop for digits (1–9)
   for (let i = 1; i <= 9; i++) {
     let number = document.createElement("div")
-    number.classList.add("number")
-    number.id = i
     number.innerText = i
+    number.id = i
+    number.classList.add("number")
     //when number is selected call this function 
     number.addEventListener("click",selectNumber )
-    number.classList.add("number")
-    document.getElementById("digits").appendChild(number);
+    document.getElementById("digits").appendChild(number)
   }
 
   // Create board 9x9 tiles/cells
@@ -107,6 +116,7 @@ function setGame() {
             let tile = document.createElement("div")
             // "row - colom"
             tile.id = row.toString() + "-" + colom.toString()
+            
             if (board[row][colom] != "-") {
                 tile.innerText = board[row][colom]
                 tile.classList.add("tile-start")
@@ -126,7 +136,7 @@ function setGame() {
 
 }
 
-
+// ===== SELECT NUMBER =====
 //click on the tiles 
 function selectNumber (){
     // highlight only one number
@@ -138,46 +148,124 @@ function selectNumber (){
     numSelected.classList.add("selected-number")
 }
 
-function selectTile (){
-    // make sure the number is selected
-    if (numSelected){
-        // puts one number only in a tile no change
-        if (this.innerText != "" ){
-            return
-        }
-        // 0-0 0-1 ...
-        let cells = this.id.split("-")
-        let row = parseInt(cells[0])
-        let colom = parseInt (cells[1])
 
-        this.innerText = numSelected.id
-        
-        if (solution[row][colom] == numSelected.id){
-            tile.id.style.color = "green"
-        }
-        else {
-            this.style.color = "red"
-            mistakes++
-            document.getElementById("mistakes").innerText = mistakes + "/3"
 
-            if (mistakes == 3){
-                alert ("LOOSER , GAME OVER")
-                newGame()
-            }
+// ===== SELECT TILE =====
+function selectTile() {
+    if (paused) return
+    if (!numSelected) return
+    if (this.innerText != "") return
+
+    clearHighlight()
+    tileSelected = this
+    tileSelected.classList.add("selected-tile")
+    highlight(tileSelected)
+
+    let coords = this.id.split("-")
+    let row = parseInt(coords[0])
+    let colom = parseInt(coords[1])
+
+    this.innerText = numSelected.id
+
+    if (solution[row][colom] == numSelected.id) {
+        this.style.color = "green"
+    } else {
+        this.style.color = "red"
+        mistakes++
+        document.getElementById("mistakes").innerText = mistakes + "/3"
+
+        if (mistakes == 3) {
+            alert("GAME OVER")
+            newGame()
         }
     }
 }
 
 
-function newGame(){
-    mistakes = 0 
+// ===== HIGHLIGHT (ROW + COLUMN + 3x3) =====
+function highlight(tile) {
+    let coords = tile.id.split("-")
+    let row = parseInt(coords[0])
+    let col = parseInt(coords[1])
+
+    let boxRow = Math.floor(row / 3) * 3
+    let boxCol = Math.floor(col / 3) * 3
+
+    let tiles = document.getElementsByClassName("tile")
+
+    for (let i = 0; i < tiles.length; i++) {
+        let c = tiles[i].id.split("-")
+        let r = parseInt(c[0])
+        let co = parseInt(c[1])
+
+        if (r == row || co == col ||
+            (r >= boxRow && r < boxRow + 3 &&
+             co >= boxCol && co < boxCol + 3)) {
+            tiles[i].classList.add("highlight")
+        }
+    }
+}
+
+function clearHighlight() {
+    let tiles = document.getElementsByClassName("tile")
+    for (let i = 0; i < tiles.length; i++) {
+        tiles[i].classList.remove("highlight")
+        tiles[i].classList.remove("selected-tile")
+    }
+}
+
+
+// ===== TIMER =====
+function startTimer() {
+    clearInterval(timer)
+    timer = setInterval(function () {
+        seconds++
+        let m = Math.floor(seconds / 60)
+        let s = seconds % 60
+        document.getElementById("timer").innerText =
+            (m < 10 ? "0" : "") + m + ":" +
+            (s < 10 ? "0" : "") + s
+    }, 1000)
+}
+
+// ===== PAUSE =====
+function pauseGame() {
+    if (!paused) {
+        clearInterval(timer)
+        paused = true
+    } else {
+        paused = false
+        startTimer()
+    }
+}
+
+
+// ===== NEW GAME =====
+function newGame() {
+
+    clearInterval(timer)
+    seconds = 0
+    paused = false
+    document.getElementById("timer").innerText = "00:00"
+
+    mistakes = 0
     document.getElementById("mistakes").innerText = "0/3"
+
     document.getElementById("board").innerHTML = ""
     document.getElementById("digits").innerHTML = ""
 
+    numSelected = null
+    tileSelected = null
 
-    numSelected = null 
-    tileSelected = null 
+    let diffSelect = document.getElementById("difficulty").value
+let level = "easy"   // قيمة افتراضية
 
-    setGame() 
+if (diffSelect) {
+    level = diffSelect.value
+}
+    board = boards[level]
+    solution = solutions[level]
+
+    setGame()
+    startTimer()
 }
