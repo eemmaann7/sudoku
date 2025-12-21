@@ -1,7 +1,6 @@
 var numSelected = null
 var tileSelected = null
 var mistakes = 0
-
 // ===== TIMER =====
 var seconds = 0
 var timer = null
@@ -20,7 +19,7 @@ var boards = {
         "67-83----",
         "81--45---"
     ],
-    medium: [
+       medium: [
         "53--7----",
         "6--195---",
         "-98----6-",
@@ -80,78 +79,63 @@ var solutions = {
     ]
 }
 
-// Time per level (seconds)
+// ===== TIME PER LEVEL =====
 var levelTime = {
     easy: 420,   // 7 minutes
     medium: 300, // 5 minutes
     hard: 240    // 4 minutes
 }
 
-
 // ===== ON LOAD =====
 window.onload = function () {
-
     let pauseButton = document.getElementById("pauseBtn")
-    if (pauseButton) {
-        pauseButton.addEventListener("click", pauseGame)
-    }
-
+    if (pauseButton) pauseButton.addEventListener("click", pauseGame)
     newGame()
 }
-
-
 
 // ===== GAME SETUP =====
 function setGame() {
   // Create loop for digits (1–9)
-  for (let i = 1; i <= 9; i++) {
-    let number = document.createElement("div")
-    number.innerText = i
-    number.id = i
-    number.classList.add("number")
-    //when number is selected call this function 
-    number.addEventListener("click",selectNumber )
-    document.getElementById("digits").appendChild(number)
-  }
+    for (let i = 1; i <= 9; i++) {
+        let number = document.createElement("div")
+        number.innerText = i
+        number.id = i
+        number.classList.add("number")
+        //when number is selected call this function
+        number.addEventListener("click", selectNumber)
+        document.getElementById("digits").append(number)
+    }
 
-  // Create board 9x9 tiles/cells
-   for (let row = 0; row < 9; row++) {
-        for (let colom = 0; colom < 9; colom++) {
+    // Create board 9x9 tiles/cells
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
             let tile = document.createElement("div")
             // "row - colom"
-            tile.id = row.toString() + "-" + colom.toString()
-            
-            if (board[row][colom] != "-") {
-                tile.innerText = board[row][colom]
+            tile.id = row + "-" + col
+            let val = board[row][col]
+            if (val != "-") {
+                tile.innerText = val
                 tile.classList.add("tile-start")
             }
-            if (row == 2 || row == 5) {
-                tile.classList.add("horizontal-line")
-            }
-            if (colom == 2 || colom == 5) {
-                tile.classList.add("vertical-line")
-            }
+            // 3x3 box lines
+            if (row == 2 || row == 5) tile.classList.add("horizontal-line")
+            if (col == 2 || col == 5) tile.classList.add("vertical-line")
+
             // puts the number selected in the tile
-            tile.addEventListener("click", selectTile)
             tile.classList.add("tile")
+            tile.addEventListener("click", selectTile)
             document.getElementById("board").append(tile)
         }
     }
-
 }
-
 
 // ===== SELECT NUMBER =====
 //click on the tiles 
-function selectNumber (){
-    if (numSelected != null){
-        numSelected.classList.remove("selected-number")
-    }
+function selectNumber() {
+    if (numSelected) numSelected.classList.remove("selected-number")
     numSelected = this
     numSelected.classList.add("selected-number")
 }
-
-
 
 // ===== SELECT TILE =====
 function selectTile() {
@@ -159,64 +143,56 @@ function selectTile() {
     if (!numSelected) return
     if (this.innerText != "") return
 
-    clearHighlight()
     tileSelected = this
+    clearHighlights()
     tileSelected.classList.add("selected-tile")
-    highlight(tileSelected)
+    highlightTile(tileSelected)
 
     let coords = this.id.split("-")
     let row = parseInt(coords[0])
-    let colom = parseInt(coords[1])
+    let col = parseInt(coords[1])
 
     this.innerText = numSelected.id
 
-    if (solution[row][colom] == numSelected.id) {
+    if (solutions[level][row][col] == numSelected.id) {
         this.style.color = "green"
     } else {
         this.style.color = "red"
         mistakes++
         document.getElementById("mistakes").innerText = mistakes + "/3"
-
-        if (mistakes == 3) {
-            alert("LOOSER! GAME OVER")
+        if (mistakes >= 3) {
+            alert("LOOSER! Game Over")
             newGame()
         }
     }
 }
 
-
 // ===== HIGHLIGHT (ROW + COLUMN + 3x3) =====
-function highlight(tile) {
+function highlightTile(tile) {
     let coords = tile.id.split("-")
     let row = parseInt(coords[0])
     let col = parseInt(coords[1])
-
     let boxRow = Math.floor(row / 3) * 3
     let boxCol = Math.floor(col / 3) * 3
 
-    let tiles = document.getElementsByClassName("tile")
-
-    for (let i = 0; i < tiles.length; i++) {
-        let c = tiles[i].id.split("-")
+    let allTiles = document.getElementsByClassName("tile")
+    for (let t of allTiles) {
+        let c = t.id.split("-")
         let r = parseInt(c[0])
         let co = parseInt(c[1])
-
-        if (r == row || co == col ||
-            (r >= boxRow && r < boxRow + 3 &&
-             co >= boxCol && co < boxCol + 3)) {
-            tiles[i].classList.add("highlight")
+        if (r == row || co == col || (r >= boxRow && r < boxRow + 3 && co >= boxCol && co < boxCol + 3)) {
+            if (t != tile) t.classList.add("highlight")
         }
     }
 }
 
-function clearHighlight() {
-    let tiles = document.getElementsByClassName("tile")
-    for (let i = 0; i < tiles.length; i++) {
-        tiles[i].classList.remove("highlight")
-        tiles[i].classList.remove("selected-tile")
+function clearHighlights() {
+    let allTiles = document.getElementsByClassName("tile")
+    for (let t of allTiles) {
+        t.classList.remove("highlight")
+        t.classList.remove("selected-tile")
     }
 }
-
 
 // ===== TIMER =====
 function updateTimerDisplay() {
@@ -246,18 +222,17 @@ function pauseGame() {
     paused = !paused
 }
 
-
-
 // ===== NEW GAME =====
+var level = "easy"
+var board = boards[level]
+var solution = solutions[level]
+
 function newGame() {
     clearInterval(timer)
-    seconds = 0
     paused = false
-    document.getElementById("timer").innerText = "00:00"
-
     mistakes = 0
+    
     document.getElementById("mistakes").innerText = "0/3"
-
     document.getElementById("board").innerHTML = ""
     document.getElementById("digits").innerHTML = ""
 
@@ -265,10 +240,14 @@ function newGame() {
     tileSelected = null
 
     let diffSelect = document.getElementById("difficulty")
-    let level = diffSelect ? diffSelect.value : "easy"
+    level = diffSelect ? diffSelect.value : "easy"
 
     board = boards[level]
     solution = solutions[level]
+
+    // Set time based on level
+    seconds = levelTime[level] || 420
+    updateTimerDisplay()
 
     setGame()
     startTimer()

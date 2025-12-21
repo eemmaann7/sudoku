@@ -5,28 +5,30 @@
     <meta name="viewport" content="width
     =device-width, initial-scale=1.0">
     <title>Sudoku</title>
-    <script defer src="js/app.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/app.js"></script>
 </head>
 <body>
-    <h2>Sudoku</h2>
-    <header>
-    <div  id="controls">
-        <span id="timer">00:00</span>
-        <span id="mistakes">0/3</span>
-    </div>
-    
-    <div class="btns">
-        <button onclick="newGame()">New Game</button>
-        <select id="level" onchange="newGame()">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <button onclick="pauseGame()">Pause</button>
-    </div>
-    <div id="board"></div>
-    <div id="digits"></div>
-    </header>
+<h1>Sudoku</h1>
+<hr>
+
+<div class="controls">
+    <button id="pauseBtn">Pause</button>
+    <button onclick="newGame()">New Game</button>
+    <select id="difficulty" onchange="newGame()">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+</div>
+
+<div class="status">
+    <span id="timer">00:00</span>
+    <span id="mistakes">0/3</span>
+</div>
+
+<div id="board"></div>
+<div id="digits"></div>
+
 </body>
 </html>
