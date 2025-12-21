@@ -13,65 +13,117 @@ body{
 
 
 h1{
-     color: rgba(30, 30, 144, 0.384);
+    margin-top: 20px;
+    letter-spacing: 2px;
+    color: #e6d9ff;
 }
 
-#board{
-    width: 445px;
-    height: 450px;
-    background-color: rgb(225, 156, 242);
+.controls {
+    margin: 15px 0;
+}
 
-    margin: 0 auto;
-    display:flex;
+.controls button,
+.controls select {
+    background-color: #3c3568;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.controls button:hover,
+.controls select:hover {
+    background-color: #524a8a;
+}
+
+.basic {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+#timer {
+    margin-right: 15px;
+    color: #aee6ff;
+}
+
+#mistakes {
+    color: #ffb3c6;
+}
+
+#board {
+    width: 360px;
+    height: 360px;
+    margin: 20px auto;
+    display: flex;
     flex-wrap: wrap;
+    background-color: #2a2540;
+    border-radius: 12px;
+    padding: 6px;
 }
 
-.tile{
-    width: 48px;
-    height: 48px;
-    border: 1px solid lightgray;
+.tile {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #3f3970;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: #312b52;
+    transition: 0.2s;
+}
 
-    font-size: 20px;
+.tile-start {
+    background-color: #201c35;
+    color: #d6c9ff;
     font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-#digits{
-    width: 445px;
-    height: 48px;
-    background-color: rgba(199, 109, 244, 0.571);
-
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.number {
-    width: 44px; 
-    height: 44px;
-    border: 1px solid black;
-    margin: 2px;
-
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.selected-number{
-    background-color: rgba(96, 35, 96, 0.224);
-}
-
-.tile-start{
-    background-color: rgba(91, 13, 92, 0.188);
-}
 .horizontal-line {
-    border-bottom: 1px solid black
+    border-bottom: 3px solid #6a5acd;
 }
 
 .vertical-line {
-    border-right: 1px solid black
+    border-right: 3px solid #6a5acd;
+}
+
+.selected-tile {
+    background-color: #5e548e !important;
+    color: white;
+}
+
+.highlight {
+    background-color: #3f3a66;
+}
+
+#digits {
+    margin: 15px auto;
+    width: 360px;
+}
+
+.number {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 4px;
+    background-color: #4b437a;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    transition: 0.2s;
+}
+
+.number:hover {
+    background-color: #6a5acd;
+}
+
+.selected-number {
+    background-color: #ffcad4;
+    color: #2b2547;
+    font-weight: bold;
 }

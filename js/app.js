@@ -136,6 +136,7 @@ function setGame() {
 
 }
 
+
 // ===== SELECT NUMBER =====
 //click on the tiles 
 function selectNumber (){
@@ -144,7 +145,6 @@ function selectNumber (){
         numSelected.classList.remove("selected-number")
     }
     numSelected = this
-    //highlight the selected number 
     numSelected.classList.add("selected-number")
 }
 
@@ -242,7 +242,6 @@ function pauseGame() {
 
 // ===== NEW GAME =====
 function newGame() {
-
     clearInterval(timer)
     seconds = 0
     paused = false
@@ -257,12 +256,9 @@ function newGame() {
     numSelected = null
     tileSelected = null
 
-    let diffSelect = document.getElementById("difficulty").value
-let level = "easy"   // قيمة افتراضية
+    let diffSelect = document.getElementById("difficulty")
+    let level = diffSelect ? diffSelect.value : "easy"
 
-if (diffSelect) {
-    level = diffSelect.value
-}
     board = boards[level]
     solution = solutions[level]
 
