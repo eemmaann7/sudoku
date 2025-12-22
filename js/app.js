@@ -1,13 +1,11 @@
-var numSelected = null
-var tileSelected = null
-var mistakes = 0
-// ===== TIMER =====
-var seconds = 0
-var timer = null
-var paused = false
+let numSelected = null
+let tileSelected = null
+let mistakes = 0
+let seconds = 0
+let timer = null
+let paused = false
 
-// ===== LEVELS =====
-var boards = {
+const boards = {
     easy: [
         "--74916-5",
         "2---6-3-9",
@@ -43,7 +41,7 @@ var boards = {
     ]
 }
 
-var solutions = {
+const solutions = {
     easy: [
         "387491625",
         "241568379",
@@ -80,17 +78,10 @@ var solutions = {
 }
 
 // ===== TIME PER LEVEL =====
-var levelTime = {
-    easy: 420,   // 7 minutes
-    medium: 300, // 5 minutes
-    hard: 240    // 4 minutes
-}
-
-// ===== ON LOAD =====
-window.onload = function () {
-    let pauseButton = document.getElementById("pauseBtn")
-    if (pauseButton) pauseButton.addEventListener("click", pauseGame)
-    newGame()
+const levelTime = {
+    easy: 420,  
+    medium: 300, 
+    hard: 240    
 }
 
 // ===== GAME SETUP =====
@@ -154,7 +145,7 @@ function selectTile() {
 
     this.innerText = numSelected.id
 
-    if (solutions[level][row][col] == numSelected.id) {
+    if (solution[row][col] == numSelected.id) {
         this.style.color = "green"
     } else {
         this.style.color = "red"
@@ -223,9 +214,9 @@ function pauseGame() {
 }
 
 // ===== NEW GAME =====
-var level = "easy"
-var board = boards[level]
-var solution = solutions[level]
+let level = "easy"
+let board = boards[level]
+let solution = solutions[level]
 
 function newGame() {
     clearInterval(timer)
@@ -252,3 +243,12 @@ function newGame() {
     setGame()
     startTimer()
 }
+
+// ===== INIT =====
+let pauseButton = document.getElementById("pauseBtn")
+let newGameButton = document.getElementById("newGameBtn")
+let difficultySelect = document.getElementById("difficulty")
+
+if (pauseButton) pauseButton.addEventListener("click", pauseGame)
+if (newGameButton) newGameButton.addEventListener("click", newGame)
+if (difficultySelect) difficultySelect.addEventListener("change", newGame)
